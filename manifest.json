@@ -1,0 +1,16 @@
+{
+  "name": "Панель персонажа — 90 дней",
+  "short_name": "Квест-панель",
+  "description": "Геймифицированный трекер 90-дневного плана фриланса",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#141416",
+  "theme_color": "#141416",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
