@@ -665,7 +665,8 @@ const SCHED={
   ['13:00','15:00','Ретро недели','Разбор цифр, выводы','book'],
   ['15:00','16:00','Сводка в трекер','Выгрузка недели','box'],
   ['16:00','19:00','Упаковка','Демо, профили, шаблоны','camera'],
-  ['19:00','00:00','Отдых','Личное время, никаких квот','moon']
+  ['19:00','00:00','Отдых','Личное время, никаких квот','moon'],
+  ['00:00','04:00','Сон','Отбой до 04:00','moon']
  ],
  rest:[
   ['04:00','12:00','Сон','Воскресенье: сон и восстановление','moon'],
@@ -678,11 +679,16 @@ const SCHED={
 };
 function toCyc(m){return m<720?m+1440:m;} /* всё до полудня — хвост предыдущего цикла */
 function cycleMin(){const d=new Date();return toCyc(d.getHours()*60+d.getMinutes());}
+function schedDayKey(){const d=new Date();if(d.getHours()<4)d.setDate(d.getDate()-1);return iso(d);} /* день цикла: до 04:00 — ещё вчерашний */
+let schDayRendered=null;
 function schedCard(inf){
+ const tail=new Date().getHours()<4; /* до 04:00 идёт вчерашний рабочий цикл — показываем его расписание */
+ if(tail)inf=dayInfo(schedDayKey());
  const type=inf.prep?'rest':inf.type;
  const rows=SCHED[type]||SCHED.full;
  const ttl=inf.prep?'Расписание дня подготовки':type==='full'?'Расписание дня (пн–пт)':type==='half'?'Расписание субботы':'Расписание воскресенья';
- const sub=type==='full'?'Рабочий цикл: 12:00 → 04:00':type==='half'?'Половинный день: работа до 19:00':'День отдыха — окно планирования в 20:00';
+ const sub=(type==='full'?'Рабочий цикл: 12:00 → 04:00':type==='half'?'Половинный день: работа до 19:00':'День отдыха — окно планирования в 20:00')+(tail?' · хвост вчерашнего цикла — до 04:00':'');
+ schDayRendered=schedDayKey();
  const now=cycleMin();
  let h='<div class="card"><h2><span class="ic">'+icon('clock',20)+'</span>'+ttl+'</h2>'
   +'<div class="hint">'+sub+'</div><div style="height:10px"></div>';
@@ -706,7 +712,7 @@ function refreshSchNow(){
   el.classList.toggle('past',now>=en);
  });
 }
-setInterval(()=>{if(tab==='today')refreshSchNow();},30000);
+setInterval(()=>{if(tab!=='today')return;refreshSchNow();if(schDayRendered&&schedDayKey()!==schDayRendered)render();},30000);
 
 function vGoals(){
  const diso=iso(),mi=curMonthIdx(diso),m=MONTHS[mi];
