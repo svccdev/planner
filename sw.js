@@ -1,8 +1,8 @@
 /* Quest Panel — сервис-воркер: офлайн-кэш + автообновление версии.
    Страница грузится «сначала сеть» — изменения из репо приходят сразу при наличии интернета,
    без интернета отдаётся сохранённая копия из кэша. */
-const CACHE = 'quest-panel-v3';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './push-config.js'];
+const CACHE = 'quest-panel-v4';
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './notif-icon-96.png', './push-config.js'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -66,7 +66,7 @@ self.addEventListener('push', (event) => {
   try { if (event.data) data = Object.assign(data, event.data.json()); } catch (_) {}
   event.waitUntil(self.registration.showNotification(data.title, {
     body: data.body,
-    badge: new URL('icon-192.png', self.registration.scope).href,
+    badge: new URL('notif-icon-96.png', self.registration.scope).href,
     tag: data.tag || 'quest-panel-notification',
     renotify: true,
     vibrate: [180, 90, 180],
@@ -89,3 +89,5 @@ self.addEventListener('notificationclick', (event) => {
     return clients.openWindow(target);
   }));
 });
+
+
