@@ -1,0 +1,17 @@
+name = "quest-panel-push"
+main = "src/index.js"
+compatibility_date = "2026-11-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ALLOWED_ORIGIN = "https://svccdev.github.io"
+VAPID_SUBJECT = "mailto:YOUR-EMAIL@example.com"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "quest-panel-push"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["* * * * *"]

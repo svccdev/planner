@@ -1,0 +1,13 @@
+{
+  "name": "quest-panel-push",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create quest-panel-push",
+    "db:migrate": "wrangler d1 migrations apply quest-panel-push --remote",
+    "test": "node --test"
+  },
+  "dependencies": { "web-push": "^3.6.7" },
+  "devDependencies": { "wrangler": "^4.0.0" }
+}
