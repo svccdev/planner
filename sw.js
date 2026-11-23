@@ -66,7 +66,6 @@ self.addEventListener('push', (event) => {
   try { if (event.data) data = Object.assign(data, event.data.json()); } catch (_) {}
   event.waitUntil(self.registration.showNotification(data.title, {
     body: data.body,
-    icon: new URL('icon-192.png', self.registration.scope).href,
     badge: new URL('icon-192.png', self.registration.scope).href,
     tag: data.tag || 'quest-panel-notification',
     renotify: true,
